@@ -1,0 +1,12 @@
+[project]
+name = "CLI-Task-Tracker"
+version = "0.1.0"
+description = "CLI Task Tracker written in python"
+authors = [
+  { name = "Priyanshu Singh" }
+]
+requires-python = ">=3.11"
+dependencies = [ ]
+
+[project.scripts]
+task-cli = "task_cli.__main__:main"
