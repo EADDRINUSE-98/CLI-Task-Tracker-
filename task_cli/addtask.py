@@ -1,5 +1,8 @@
+# To get your localtime and format it to custom format
 from time import localtime, strftime
+# To get absolute path of task-detail.json file
 from os import path
+# To handle json data
 import json
 
 class AddTask:
@@ -7,10 +10,10 @@ class AddTask:
     self.__id : int
     self.__description : str
     self.__status = "todo"
-    self.__createdAt = strftime("%d-%m-%Y-%H:%M:%S", localtime())
+    self.__createdAt = strftime("%d-%m-%Y %H:%M.%S", localtime())
     self.__upatedAt = ""
     self.__jsonFile = "task-details.json"
-
+  # Compute task id as per the contents of task-detail.json file
   def __computeJsonRecordID(self, absolute_path):
     id_list = []
     avail_id = 1
@@ -27,7 +30,7 @@ class AddTask:
       except IndexError:
         avail_id = id_list[i] + 1
     return avail_id
-
+  # Create task-details.json file
   def __createTaskJson(self):
     json_file_exist = path.exists(self.__jsonFile)
 
@@ -35,7 +38,7 @@ class AddTask:
       with open(self.__jsonFile, "x"):
         pass
     return path.abspath(self.__jsonFile)
-
+  # Strip empty lines in json file
   def __stripEmptyLine(self, absolute_path):
     with open(absolute_path, "r") as jsonfile:
       content = jsonfile.readlines()
@@ -49,7 +52,7 @@ class AddTask:
 
     with open(absolute_path, "w") as jsonfile:
       jsonfile.writelines(content)
-    
+  # Add an entry of new task in json file
   def __updateTaskJson(self, absolute_path):
     task_record = {
       "id" : self.__id,
