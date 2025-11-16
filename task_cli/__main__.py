@@ -7,6 +7,7 @@ from .addtask import AddTask
 from .updatetask import UpdateTask
 from .deletetask import DeleteTask
 from .marktaskprogress import MarkTask
+from .listtask import ListTask
 
 def main():
   # Create a parent parser
@@ -34,8 +35,13 @@ def main():
   # Create a new parser to mark status of tasks
   parser_mark_progress = subparsers.add_parser("mark", help="Change progress status of a task.")
   # Add what argument it takes
-  parser_mark_progress.add_argument("status", type=str, nargs=1, help="Change progress status of the task.", choices=["todo", "in-progress", "done"])
+  parser_mark_progress.add_argument("status", type=str, nargs=1, help="Status of the task.", choices=["todo", "in-progress", "done"])
   parser_mark_progress.add_argument("task_id", type=int, nargs=1, help="Task id")
+
+  # Create a new parser to list tasks
+  parser_list = subparsers.add_parser("list", help="List tasks.")
+  # Add what argument it takes
+  parser_list.add_argument("status", type=str, nargs=1, help="Status of the task.", choices=["todo", "in-progress", "done", "all"])
   
   # Parse whatever the arguments are
   args = parser.parse_args()
@@ -56,6 +62,11 @@ def main():
   elif args.command == "mark":
     task = MarkTask()
     task.taskMarker(args.status[0], args.task_id[0])
+  elif args.command == "list":
+    task = ListTask()
+    task.taskLister(args.status[0])
+  else:
+    parser.print_help()
 
 if __name__ == "__main__":
   main()
