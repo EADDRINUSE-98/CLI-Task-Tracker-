@@ -5,7 +5,7 @@ class ListTask:
   def __init__(self):
     self.__status : str
     self.__jsonFile = "task-details.json"
-
+  # Checking if task-details.json file exists or not
   def __checkTaskJson(self):
     json_file_exist = path.exists(self.__jsonFile)
     if json_file_exist:
@@ -25,18 +25,18 @@ class ListTask:
       pass
     with open(absolute_path, "w") as jsonfile:
       jsonfile.writelines(content)
-
+  
   def __fileOverWritter(self, content, absolute_path):
     with open(absolute_path, "w") as jsonfile:
       jsonfile.writelines(content)
-  
+  # Sorting task details in json file
   def __sortTaskJson(self, absolute_path):
     with open(absolute_path, "r") as jsonfile:
       content = jsonfile.readlines()
       content.sort()
       jsonfile.close()
       self.__fileOverWritter(content, absolute_path)
-
+  # An attempt to pretty print the list of tasks
   def __taskTableFormat(self, content):
     row = ""
     header = ""
@@ -51,12 +51,12 @@ class ListTask:
       print(row)
       print("+" + "-"*(len(row) - 2) + "+")
       row = ""
-  
+  # List all tasks
   def __listAll(self, absolute_path):
     with open(absolute_path, "r") as jsonfile:
       content = [json.loads(jsontask) for jsontask in jsonfile.readlines()]
     self.__taskTableFormat(content)
-
+  # List only task with specific status
   def __listByStatus(self, absolute_path):
     with open(absolute_path, "r") as jsonfile:
       content = [json.loads(jsontask) for jsontask in jsonfile.readlines() if f"\"status\": \"{self.__status}\"" in jsontask]
@@ -71,3 +71,4 @@ class ListTask:
       self.__listAll(absolute_path)
     else:
       self.__listByStatus(absolute_path)
+
